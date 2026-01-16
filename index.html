@@ -1,362 +1,657 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Игорь Пронькин — Стратегический CIO</title>
-  <meta name="description" content="Стратегический CIO. Превращаю ИТ из центра затрат в управляемый актив бизнеса. Инфраструктура, 1С, DevOps, BI, ИБ — без простоев и узких мест." />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Игорь Пронькин — Стратегический CIO</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Игорь Пронькин — Стратегический CIO" />
-  <meta property="og:description" content="Превращаю ИТ из центра затрат в управляемый актив бизнеса. Без простоев, узких мест и потери управляемости." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="assets/foto.png" />
+        :root {
+            --primary: #0a66c2;
+            --primary-hover: #004182;
+            --bg-white: #ffffff;
+            --bg-light: #f3f6f9;
+            --bg-lighter: #fafbfc;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --border: #e0e0e0;
+            --accent-green: #057642;
+            --accent-orange: #f5a623;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
 
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image" />
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: var(--bg-lighter);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
 
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111111'/%3E%3Cpath d='M18 44V20h6v24h-6Zm12 0V20h7c7 0 11 4 11 12s-4 12-11 12h-7Zm6-5h1c3 0 5-2 5-7s-2-7-5-7h-1v14Z' fill='%23EAEAEA'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="css/styles.css" />
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--bg-white);
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
 
-  <!-- JSON-LD (Person) -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Игорь Пронькин",
-    "jobTitle": "Стратегический CIO",
-    "description": "Превращаю ИТ из центра затрат в управляемый актив бизнеса. Инфраструктура, 1С, DevOps, BI, ИБ.",
-    "image": "assets/foto.png",
-    "sameAs": [
-      "https://t.me/IgorPronk"
-    ]
-  }
-  </script>
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            background: var(--bg-white);
+            padding: 6rem 2rem 4rem;
+            margin-top: 3.5rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 4rem;
+        }
+
+        .tag-line {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 3rem;
+            line-height: 1.3;
+            margin-bottom: 1.2rem;
+            font-weight: 600;
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .expertise-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        .expertise-tags span {
+            padding: 0.5rem 1rem;
+            background: var(--bg-light);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 24px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: 2px solid var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-light);
+        }
+
+        .profile-photo {
+            width: 100%;
+            background: var(--bg-white);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-photo img {
+            width: 100%;
+            display: block;
+        }
+
+        .profile-card {
+            background: var(--bg-white);
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border);
+        }
+
+        .profile-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .profile-card .focus-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-card ul {
+            list-style: none;
+        }
+
+        .profile-card li {
+            padding: 0.9rem 1rem 0.9rem 2.5rem;
+            margin-bottom: 0.6rem;
+            background: var(--bg-lighter);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            position: relative;
+        }
+
+        .profile-card li::before {
+            content: '⚠';
+            position: absolute;
+            left: 0.9rem;
+            color: var(--accent-orange);
+        }
+
+        section {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 4rem 2rem;
+            background: var(--bg-white);
+            border-radius: 16px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .language-item {
+            background: var(--bg-lighter);
+            padding: 1.2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+            font-weight: 600;
+        }
+
+        .language-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .value-card {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .value-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .value-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .value-card p {
+            color: var(--text-secondary);
+        }
+
+        .achievement-item {
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .achievement-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            opacity: 0.3;
+        }
+
+        .achievement-value {
+            color: var(--accent-green);
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+
+        .additional-expertise {
+            margin-top: 2.5rem;
+            padding: 2rem;
+            background: var(--bg-lighter);
+            border-radius: 12px;
+        }
+
+        .expertise-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .expertise-list li {
+            list-style: none;
+            padding: 1rem;
+            background: var(--bg-white);
+            border-radius: 8px;
+            border-left: 3px solid var(--primary);
+            color: var(--text-secondary);
+        }
+
+        .approach-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .approach-card {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .approach-card h3 {
+            color: var(--primary);
+            margin-bottom: 1.2rem;
+        }
+
+        .approach-card ul {
+            list-style: none;
+        }
+
+        .approach-card li {
+            padding: 0.8rem 0 0.8rem 1.8rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .approach-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .formats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .format-card {
+            padding: 2rem;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .format-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .format-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .format-card p {
+            color: var(--text-secondary);
+        }
+
+        .contact-box {
+            background: var(--primary);
+            padding: 3.5rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            color: white;
+        }
+
+        .contact-box h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-box p {
+            max-width: 800px;
+            margin: 0 auto 2.5rem;
+            line-height: 1.6;
+        }
+
+        .contact-box .btn {
+            background: white;
+            color: var(--primary);
+        }
+
+        footer {
+            background: var(--bg-white);
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content, .about-content, .approach-grid {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .nav-links {
+                display: none;
+            }
+            .language-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .achievement-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
-
 <body>
-  <a class="skip" href="#content">Перейти к содержанию</a>
-
-  <header class="header" id="top">
-    <div class="container header__inner">
-      <div class="brand">
-        <div class="brand__mark" aria-hidden="true">IP</div>
-        <div class="brand__text">
-          <div class="brand__name">Игорь Пронькин</div>
-          <div class="brand__role">Стратегический CIO</div>
-        </div>
-      </div>
-
-      <nav class="nav" aria-label="Навигация">
-        <a href="#about">Кто я</a>
-        <a href="#value">Результат</a>
-        <a href="#achievements">Достижения</a>
-        <a href="#approach">Подход</a>
-        <a href="#work">Форматы</a>
-        <a class="nav__cta" href="#contact">Контакт</a>
-      </nav>
-
-      <button class="burger" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobileNav">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-
-    <div class="mobile" id="mobileNav" hidden>
-      <div class="container mobile__inner">
-        <a href="#about">Кто я</a>
-        <a href="#value">Результат</a>
-        <a href="#achievements">Достижения</a>
-        <a href="#approach">Подход</a>
-        <a href="#work">Форматы</a>
-        <a class="mobile__cta" href="#contact">Контакт</a>
-      </div>
-    </div>
-  </header>
-
-  <main id="content">
-    <!-- HERO -->
-    <section class="section hero">
-      <div class="container hero__grid">
-        <div class="hero__text">
-          <p class="kicker">C-level / Transformation / Risk & Control</p>
-          <h1 class="h1">
-            Превращаю ИТ из центра затрат<br />
-            в управляемый актив бизнеса
-          </h1>
-          <p class="lead">
-            Строю ИТ как бизнес-функцию: инфраструктура, 1С, DevOps, BI и информационная безопасность —
-            <strong>без простоев, “узких мест” и потери управляемости.</strong>
-          </p>
-
-          <div class="hero__chips" aria-label="Ключевые направления">
-            <span class="chip">Инфраструктура</span>
-            <span class="chip">1С / ERP</span>
-            <span class="chip">DevOps</span>
-            <span class="chip">BI</span>
-            <span class="chip">Информационная безопасность</span>
-          </div>
-
-          <div class="hero__actions">
-            <a class="btn btn--primary" href="https://t.me/IgorPronk" target="_blank" rel="noopener">
-              Обсудить задачу в Telegram
-            </a>
-            <a class="btn btn--ghost" href="#achievements">Посмотреть достижения</a>
-          </div>
-
-          <p class="note">
-            Помогаю CEO и директорам компаний среднего и крупного бизнеса в период роста, реструктуризации
-            или технологической трансформации.
-          </p>
-        </div>
-
-        <aside class="hero__card" aria-label="Портрет и позиционирование">
-          <figure class="portrait">
-            <img src="assets/foto.png" alt="Портрет Игоря Пронка" loading="eager" />
-          </figure>
-
-          <div class="card">
-            <div class="card__title">Фокус</div>
-            <div class="card__text">
-              Устойчивость, контроль и масштабируемость бизнеса через ИТ.
-            </div>
-
-            <div class="divider"></div>
-
-            <div class="card__title">С чем обычно приходят</div>
-            <ul class="list">
-              <li>Рост и “трещины” в ИТ-ландшафте</li>
-              <li>Зависимость от подрядчиков / ключевых людей</li>
-              <li>Риски ИБ и регуляторика</li>
-              <li>Миграции/замены ERP/WMS/CRM/СЭД/BI без остановки бизнеса</li>
+    <header>
+        <nav>
+            <div class="logo">IP</div>
+            <ul class="nav-links">
+                <li><a href="#about">Кто я</a></li>
+                <li><a href="#value">Результат</a></li>
+                <li><a href="#achievements">Достижения</a></li>
+                <li><a href="#approach">Подход</a></li>
+                <li><a href="#work">Форматы</a></li>
+                <li><a href="#contact">Контакт</a></li>
             </ul>
-          </div>
-        </aside>
-      </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div>
+                <div class="tag-line">C-level / Transformation / Risk & Control</div>
+                <h1>Превращаю ИТ из центра затрат в управляемый актив бизнеса</h1>
+                <p class="hero-subtitle">Строю ИТ как бизнес-функцию: инфраструктура, 1С, DevOps, BI и информационная безопасность — без простоев, "узких мест" и потери управляемости.</p>
+                
+                <div class="expertise-tags">
+                    <span>Инфраструктура</span>
+                    <span>1С / ERP</span>
+                    <span>DevOps</span>
+                    <span>BI</span>
+                    <span>Информационная безопасность</span>
+                </div>
+
+                <div class="cta-buttons">
+                    <a href="https://t.me/IgorPronk" class="btn btn-primary">Обсудить задачу в Telegram</a>
+                    <a href="#achievements" class="btn btn-secondary">Посмотреть достижения</a>
+                </div>
+            </div>
+
+            <div>
+                <div class="profile-photo">
+                    <img src="assets/foto.png" alt="Игорь Пронькин">
+                </div>
+                <div class="profile-card">
+                    <h3>📍 Фокус</h3>
+                    <p class="focus-text">Устойчивость, контроль и масштабируемость бизнеса через ИТ.</p>
+                    <h3>🎯 С чем обычно приходят</h3>
+                    <ul>
+                        <li>Рост и "трещины" в ИТ-ландшафте</li>
+                        <li>Зависимость от подрядчиков / ключевых людей</li>
+                        <li>Риски ИБ и регуляторика</li>
+                        <li>Миграции/замены ERP/WMS/CRM/СЭД/BI без остановки бизнеса</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- ABOUT -->
-    <section class="section" id="about">
-      <div class="container">
-        <h2 class="h2">Кто я</h2>
-        <div class="grid-2">
-          <div class="prose">
-            <p>
-              Я — стратегический CIO. Моя зона ответственности — не “технологии”, а
-              <strong>устойчивость бизнеса через ИТ</strong>.
-            </p>
-            <p>
-              Помогаю собственникам и совету директоров выстраивать ИТ-архитектуру, которая выдерживает рост,
-              регуляторные требования и кризисы — <strong>без потери денег, скорости и контроля</strong>.
-            </p>
-          </div>
-
-          <div class="panel">
-            <div class="panel__title">Язык, на котором я работаю с бизнесом</div>
-            <div class="tags">
-              <span class="tag">Риски</span>
-              <span class="tag">Выручка</span>
-              <span class="tag">Управляемость</span>
-              <span class="tag">Сроки</span>
-              <span class="tag">Надёжность</span>
-              <span class="tag">Команда</span>
+    <section id="about">
+        <div class="about-content">
+            <div>
+                <h2>Кто я</h2>
+                <h3 style="margin-bottom: 1rem;">Я — стратегический CIO. Моя зона ответственности — не "технологии", а устойчивость бизнеса через ИТ.</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1rem;">Помогаю собственникам и совету директоров выстраивать ИТ-архитектуру, которая выдерживает рост, регуляторные требования и кризисы — без потери денег, скорости и контроля.</p>
+                <p style="color: var(--primary); font-weight: 600;">ИТ в моём подходе — инструмент управления компанией, а не набор систем.</p>
             </div>
-            <p class="panel__note">
-              ИТ в моём подходе — инструмент управления компанией, а не набор систем.
-            </p>
-          </div>
+            <div>
+                <h3 style="margin-bottom: 1.5rem;">Язык, на котором я работаю с бизнесом</h3>
+                <div class="language-grid">
+                    <div class="language-item">Риски</div>
+                    <div class="language-item">Выручка</div>
+                    <div class="language-item">Управляемость</div>
+                    <div class="language-item">Сроки</div>
+                    <div class="language-item">Надёжность</div>
+                    <div class="language-item">Команда</div>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- VALUE -->
-    <section class="section" id="value">
-      <div class="container">
-        <h2 class="h2">Результат для бизнеса</h2>
-        <div class="cards">
-          <article class="mini">
-            <h3 class="h3">Технологическая независимость</h3>
-            <p>Снижение критических зависимостей и повышение устойчивости ключевых сервисов.</p>
-          </article>
-          <article class="mini">
-            <h3 class="h3">ИТ без простоев и “узких мест”</h3>
-            <p>Архитектура и процессы, которые выдерживают рост и нагрузку без ручного героизма.</p>
-          </article>
-          <article class="mini">
-            <h3 class="h3">Прозрачность данных и управления</h3>
-            <p>Понятные метрики, контуры данных и аналитика для управленческих решений.</p>
-          </article>
-          <article class="mini">
-            <h3 class="h3">Контроль рисков и ИБ</h3>
-            <p>Снижение финансовых, регуляторных и репутационных рисков через системную ИБ.</p>
-          </article>
-          <article class="mini">
-            <h3 class="h3">Сильная ИТ-команда</h3>
-            <p>Команды и процессы, способные поддерживать рост бизнеса и изменения.</p>
-          </article>
+    <section id="value">
+        <h2>Результат для бизнеса</h2>
+        <div class="value-grid">
+            <div class="value-card">
+                <h3>Технологическая независимость</h3>
+                <p>Снижение критических зависимостей и повышение устойчивости ключевых сервисов.</p>
+            </div>
+            <div class="value-card">
+                <h3>ИТ без простоев и "узких мест"</h3>
+                <p>Архитектура и процессы, которые выдерживают рост и нагрузку без ручного героизма.</p>
+            </div>
+            <div class="value-card">
+                <h3>Прозрачность данных и управления</h3>
+                <p>Понятные метрики, контуры данных и аналитика для управленческих решений.</p>
+            </div>
+            <div class="value-card">
+                <h3>Контроль рисков и ИБ</h3>
+                <p>Снижение финансовых, регуляторных и репутационных рисков через системную ИБ.</p>
+            </div>
+            <div class="value-card">
+                <h3>Сильная ИТ-команда</h3>
+                <p>Команды и процессы, способные поддерживать рост бизнеса и изменения.</p>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- ACHIEVEMENTS -->
-    <section class="section" id="achievements">
-      <div class="container">
-        <div class="section__head">
-          <h2 class="h2">Ключевые достижения</h2>
+    <section id="achievements">
+        <h2>Ключевые достижения</h2>
+        <div class="achievement-item">
+            <div class="achievement-number">01</div>
+            <div>
+                <h3>Построение ИТ-функции с нуля под рост бизнеса</h3>
+                <p style="color: var(--text-secondary); margin: 1rem 0;">Создавал автономные ИТ-департаменты "под ключ" в краткие сроки: Service Desk, системное администрирование, DevOps, разработка 1С и информационная безопасность. Формировал команды до 40+ специалистов, выстраивал процессы ITSM / ITIL и снимал критическую зависимость от внешних подрядчиков.</p>
+                <div class="achievement-value">Ценность: устойчивая ИТ-основа для масштабирования и контроля рисков.</div>
+            </div>
+        </div>
+        <div class="achievement-item">
+            <div class="achievement-number">02</div>
+            <div>
+                <h3>Критические ИТ-проекты без остановки бизнеса</h3>
+                <p style="color: var(--text-secondary); margin: 1rem 0;">Руководил сложными миграциями и трансформациями (70+ корпоративных сервисов, ERP, BI, документооборот) без простоев, с сохранением привычной среды работы и минимизацией операционных рисков.</p>
+                <div class="achievement-value">Ценность: развитие и трансформация без потери выручки и управляемости.</div>
+            </div>
+        </div>
+        <div class="achievement-item">
+            <div class="achievement-number">03</div>
+            <div>
+                <h3>Комплексная информационная безопасность</h3>
+                <p style="color: var(--text-secondary); margin: 1rem 0;">Построил ИБ "под ключ": защита внешнего периметра, контроль доступов и устройств, DLP, SIEM, реагирование на инциденты. Интегрировал ИБ в ИТ и бизнес-процессы компании.</p>
+                <div class="achievement-value">Ценность: снижение финансовых, регуляторных и репутационных рисков.</div>
+            </div>
         </div>
 
-        <div class="stack">
-          <article class="case">
-            <div class="case__num">01</div>
-            <div class="case__body">
-              <h3 class="h3">Построение ИТ-функции с нуля под рост бизнеса</h3>
-              <p>
-                Создавал автономные ИТ-департаменты “под ключ” в краткие сроки: Service Desk, системное администрирование,
-                DevOps, разработка 1С и информационная безопасность. Формировал команды <strong>до 40+ специалистов</strong>,
-                выстраивал процессы ITSM / ITIL и снимал критическую зависимость от внешних подрядчиков.
-              </p>
-              <p class="case__value"><strong>Ценность:</strong> устойчивая ИТ-основа для масштабирования и контроля рисков.</p>
-            </div>
-          </article>
-
-          <article class="case">
-            <div class="case__num">02</div>
-            <div class="case__body">
-              <h3 class="h3">Критические ИТ-проекты без остановки бизнеса</h3>
-              <p>
-                Руководил сложными миграциями и трансформациями (70+ корпоративных сервисов, ERP, BI, документооборот)
-                без простоев, с сохранением привычной среды работы и минимизацией операционных рисков.
-              </p>
-              <p class="case__value"><strong>Ценность:</strong> развитие и трансформация без потери выручки и управляемости.</p>
-            </div>
-          </article>
-
-          <article class="case">
-            <div class="case__num">03</div>
-            <div class="case__body">
-              <h3 class="h3">Комплексная информационная безопасность</h3>
-              <p>
-                Построил ИБ “под ключ”: защита внешнего периметра, контроль доступов и устройств, DLP, SIEM,
-                реагирование на инциденты. Интегрировал ИБ в ИТ и бизнес-процессы компании.
-              </p>
-              <p class="case__value"><strong>Ценность:</strong> снижение финансовых, регуляторных и репутационных рисков.</p>
-            </div>
-          </article>
-        </div>
-
-        <div class="divider xl"></div>
-
-        <h3 class="h3">Дополнительная экспертиза</h3>
-        <div class="bullets">
-          <div class="bullet">Оптимизация ИТ-департаментов: снижение затрат при росте скорости и качества реакции на бизнес</div>
-          <div class="bullet">Переход на современные ERP-платформы: миграция на 1С:ERP</div>
-          <div class="bullet">Внедрение BI и управленческой аналитики для контроля операционных и финансовых показателей</div>
-          <div class="bullet">ИТ и ИБ как стратегия: диалог с CEO и топ-менеджментом на уровне бизнес-результатов и рисков</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- APPROACH -->
-    <section class="section" id="approach">
-      <div class="container">
-        <h2 class="h2">Подход</h2>
-
-        <div class="grid-3">
-          <div class="box">
-            <h3 class="h3">Как я думаю</h3>
-            <p>
-              ИТ — это архитектура управления бизнесом. Если система неуправляема — бизнес уязвим.
-            </p>
-          </div>
-
-          <div class="box">
-            <h3 class="h3">Почему мне доверяют сложное</h3>
-            <ul class="list">
-              <li>Ответственность за результат, а не за процесс</li>
-              <li>Фокус на рисках, деньгах и устойчивости</li>
-              <li>Без техно-шума и “модных слов ради слов”</li>
-              <li>Системы, которые работают без ручного героизма</li>
+        <div class="additional-expertise">
+            <h3>Дополнительная экспертиза</h3>
+            <ul class="expertise-list">
+                <li>Оптимизация ИТ-департаментов: снижение затрат при росте скорости и качества реакции на бизнес</li>
+                <li>Переход на современные ERP-платформы: миграция на 1С:ERP</li>
+                <li>Внедрение BI и управленческой аналитики для контроля операционных и финансовых показателей</li>
+                <li>ИТ и ИБ как стратегия: диалог с CEO и топ-менеджментом на уровне бизнес-результатов и рисков</li>
             </ul>
-          </div>
+        </div>
+    </section>
 
-          <div class="box">
-            <h3 class="h3">Управленческая философия</h3>
-            <ul class="list">
-              <li>Сначала управляемость, потом оптимизация</li>
-              <li>Простые решения сильнее сложных</li>
-              <li>Команда важнее инструментов</li>
-              <li>ИТ усиливает бизнес, а не требует внимания к себе</li>
+    <section id="approach">
+        <h2>Подход</h2>
+        <div class="approach-grid">
+            <div class="approach-card">
+                <h3>Как я думаю</h3>
+                <p>ИТ — это архитектура управления бизнесом. Если система неуправляема — бизнес уязвим.</p>
+            </div>
+            <div class="approach-card">
+                <h3>Почему мне доверяют сложное</h3>
+                <ul>
+                    <li>Ответственность за результат, а не за процесс</li>
+                    <li>Фокус на рисках, деньгах и устойчивости</li>
+                    <li>Без техно-шума и "модных слов ради слов"</li>
+                    <li>Системы, которые работают без ручного героизма</li>
+                </ul>
+            </div>
+        </div>
+        <div class="approach-card" style="margin-top: 1.5rem;">
+            <h3>Управленческая философия</h3>
+            <ul>
+                <li>Сначала управляемость, потом оптимизация</li>
+                <li>Простые решения сильнее сложных</li>
+                <li>Команда важнее инструментов</li>
+                <li>ИТ усиливает бизнес, а не требует внимания к себе</li>
             </ul>
-          </div>
         </div>
-      </div>
     </section>
 
-    <!-- WORK -->
-    <section class="section" id="work">
-      <div class="container">
-        <h2 class="h2">Форматы работы</h2>
-
-        <div class="cards">
-          <article class="mini">
-            <h3 class="h3">Стратегический консалтинг</h3>
-            <p>Для CEO / Board: ИТ и ИБ как управляемые активы и контуры риска.</p>
-          </article>
-
-          <article class="mini">
-            <h3 class="h3">Аудит ИТ и ИБ</h3>
-            <p>Перед ростом, сделкой, реструктуризацией или “починкой” управляемости.</p>
-          </article>
-
-          <article class="mini">
-            <h3 class="h3">CIO / Advisor (временная роль)</h3>
-            <p>Усиление команды, выстраивание контуров управления, запуск трансформаций.</p>
-          </article>
-
-          <article class="mini">
-            <h3 class="h3">Сопровождение трансформаций</h3>
-            <p>ERP/BI/миграции/ИБ — с минимизацией рисков и без остановки бизнеса.</p>
-          </article>
+    <section id="work">
+        <h2>Форматы работы</h2>
+        <div class="formats-grid">
+            <div class="format-card">
+                <h3>Стратегический консалтинг</h3>
+                <p>Для CEO / Board: ИТ и ИБ как управляемые активы и контуры риска.</p>
+            </div>
+            <div class="format-card">
+                <h3>Аудит ИТ и ИБ</h3>
+                <p>Перед ростом, сделкой, реструктуризацией или "починкой" управляемости.</p>
+            </div>
+            <div class="format-card">
+                <h3>CIO / Advisor (временная роль)</h3>
+                <p>Усиление команды, выстраивание контуров управления, запуск трансформаций.</p>
+            </div>
+            <div class="format-card">
+                <h3>Сопровождение трансформаций</h3>
+                <p>ERP/BI/миграции/ИБ — с минимизацией рисков и без остановки бизнеса.</p>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- CONTACT -->
-    <section class="section contact" id="contact">
-      <div class="container">
-        <div class="contact__panel">
-          <div>
-            <h2 class="h2">Контакт</h2>
-            <p class="lead">
-              Если вам нужен CIO, который держит архитектуру, бизнес и риски в одной системе координат —
-              напишите напрямую.
-            </p>
-          </div>
-
-          <div class="contact__cta">
-            <a class="btn btn--primary btn--wide" href="https://t.me/IgorPronk" target="_blank" rel="noopener">
-              Написать в Telegram
-            </a>
-            <button class="btn btn--ghost btn--wide" type="button" data-copy="https://t.me/IgorPronk">
-              Скопировать ссылку
-            </button>
-            <p class="note tiny" id="copyStatus" aria-live="polite"></p>
-          </div>
+    <section id="contact">
+        <div class="contact-box">
+            <h2>Контакт</h2>
+            <p>Если вам нужен CIO, который держит архитектуру, бизнес и риски в одной системе координат — напишите напрямую.</p>
+            <a href="https://t.me/IgorPronk" class="btn">Написать в Telegram</a>
         </div>
-
-        <footer class="footer">
-          <div class="footer__left">
-            <span>© <span id="year"></span> Игорь Пронькин</span>
-            <span class="dot">•</span>
-            <a href="#top">Наверх</a>
-          </div>
-          <div class="footer__right">
-            <span class="muted">Минимализм. Смыслы. Надёжность.</span>
-          </div>
-        </footer>
-      </div>
     </section>
-  </main>
 
-  <script src="js/main.js"></script>
+    <footer>
+        <p>© Игорь Пронькин • <a href="#top">Наверх</a></p>
+        <p style="margin-top: 0.5rem;">Минимализм. Смыслы. Надёжность.</p>
+    </footer>
 </body>
 </html>
