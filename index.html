@@ -16,6 +16,9 @@
 <!-- /Yandex.Metrika counter -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <title>Игорь Пронькин | CIO / IT Director</title>
     <meta name="description" content="Игорь Пронькин — CIO / IT Director. ИТ-трансформация, 1С, ERP, BI, инфраструктура, информационная безопасность и управление ИТ-командами." />
     <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -167,6 +170,57 @@
             color: var(--text-secondary);
             margin-bottom: 1.8rem;
             max-width: 42rem;
+        }
+
+
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            right: 5%;
+            top: 18%;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(15, 118, 110, 0.12), transparent 64%);
+            pointer-events: none;
+            filter: blur(2px);
+        }
+
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.9rem;
+            margin-top: 2rem;
+            max-width: 44rem;
+        }
+
+        .metric-card {
+            padding: 1rem 1.05rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.76);
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+        }
+
+        .metric-card strong {
+            display: block;
+            color: var(--primary);
+            font-size: 1.45rem;
+            line-height: 1.1;
+            letter-spacing: -0.04em;
+        }
+
+        .metric-card span {
+            display: block;
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+            margin-top: 0.35rem;
+            line-height: 1.35;
         }
 
         .expertise-tags {
@@ -443,6 +497,99 @@
             box-shadow: 0 8px 20px rgba(15, 23, 42, 0.03);
         }
 
+
+
+        .cases-intro {
+            max-width: 820px;
+            color: var(--text-secondary);
+            margin: -1.6rem 0 2.4rem;
+            font-size: 1.04rem;
+        }
+
+        .case-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.6rem;
+        }
+
+        .case-card {
+            padding: 2.2rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background: linear-gradient(180deg, #ffffff 0%, #f9fbfd 100%);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .case-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(15, 61, 145, 0.16);
+            box-shadow: var(--shadow-md);
+        }
+
+        .case-meta {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.38rem 0.72rem;
+            border-radius: 999px;
+            background: rgba(15, 61, 145, 0.06);
+            color: var(--primary);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 1rem;
+        }
+
+        .case-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.85rem;
+            letter-spacing: -0.02em;
+        }
+
+        .case-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .case-card ul {
+            list-style: none;
+            margin: 1rem 0 1.2rem;
+        }
+
+        .case-card li {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.55rem;
+            color: var(--text-secondary);
+        }
+
+        .case-card li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-green);
+            font-weight: 800;
+        }
+
+        .case-result {
+            padding: 0.9rem 1rem;
+            border-radius: 14px;
+            background: rgba(15, 118, 110, 0.08);
+            color: var(--accent-green);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .case-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .case-link:hover {
+            text-decoration: underline;
+        }
+
         .approach-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -599,6 +746,7 @@
                 <li><a href="#about">Кто я</a></li>
                 <li><a href="#value">Результат</a></li>
                 <li><a href="#achievements">Достижения</a></li>
+                <li><a href="#cases">Кейсы</a></li>
                 <li><a href="#approach">Подход</a></li>
                 <li><a href="#work">Форматы</a></li>
                 <li><a href="#contact" class="nav-contact">Связаться</a></li>
@@ -622,6 +770,12 @@
                     <span>1С / ERP</span>
                     <span>BI</span>
                     <span>Информационная безопасность</span>
+                </div>
+
+                <div class="hero-metrics" aria-label="Ключевые масштабы опыта">
+                    <div class="metric-card"><strong>12+ лет</strong><span>управления ИТ и трансформациями</span></div>
+                    <div class="metric-card"><strong>40+ человек</strong><span>команды, которые выстраивал и развивал</span></div>
+                    <div class="metric-card"><strong>70+ сервисов</strong><span>миграции и изменения без остановки бизнеса</span></div>
                 </div>
 
                 <div class="cta-buttons">
@@ -748,6 +902,20 @@
                 <li>Развитие и масштабирование ИТ-команд: найм, мотивация, удержание ключевых специалистов</li>
                 <li>Повышение доверия бизнеса к ИТ через прозрачные метрики и измеримые результаты</li>
             </ul>
+        </div>
+    </section>
+
+
+    <section id="cases">
+        <h2>Практические кейсы и разборы</h2>
+        <p class="cases-intro">В Telegram-канале я разбираю реальные управленческие ситуации: где ИТ влияет на деньги, устойчивость, скорость операций и способность бизнеса расти без хаоса.</p>
+        <div class="case-grid">
+            <div class="case-card"><div class="case-meta">Операции / WMS</div><h3>WMS и распределительные центры</h3><p>WMS быстро показывает, где на складе порядок, а где только иллюзия порядка. Главный риск обычно не в системе, а в связке ИТ, склада и операционного управления.</p><ul><li>инфраструктура под склад 24/7;</li><li>стабильность ТСД, сети и серверной части;</li><li>сопротивление процессным изменениям.</li></ul><div class="case-result">Фокус: сделать WMS не «дорогой системой», а рабочим контуром управления складом.</div><a class="case-link" href="https://t.me/PronkinPROIT/18" target="_blank" rel="noopener noreferrer">Разбор в канале →</a></div>
+            <div class="case-card"><div class="case-meta">Инфраструктура / Network</div><h3>Сеть как фундамент бизнес-систем</h3><p>Когда сеть проектировалась «как получилось», это проявляется не в красивых схемах, а в задержках обменов, отваливающихся VPN и аналитике, которая приезжает слишком поздно.</p><ul><li>офисы, облака, VPN и сегментация;</li><li>Network as Code и контроль изменений;</li><li>предсказуемое масштабирование без ручной лотереи.</li></ul><div class="case-result">Фокус: убрать «непонятно где тормозит» через архитектуру сети и контроль изменений.</div><a class="case-link" href="https://t.me/PronkinPROIT/13" target="_blank" rel="noopener noreferrer">Разбор в канале →</a></div>
+            <div class="case-card"><div class="case-meta">Эксплуатация / SLA</div><h3>Мониторинг без шума</h3><p>Мониторинг нужен не ради графиков. Он должен показывать не «CPU 95%», а бизнес-проблему: CRM тормозит, 1С не отвечает, обмены развалились, WMS начала лагать.</p><ul><li>пороговые значения и эскалация;</li><li>сервисный взгляд вместо витрины метрик;</li><li>связь мониторинга с экономикой инфраструктуры.</li></ul><div class="case-result">Фокус: превратить мониторинг из витрины графиков в инструмент управляемости.</div><a class="case-link" href="https://t.me/PronkinPROIT/19" target="_blank" rel="noopener noreferrer">Разбор в канале →</a></div>
+            <div class="case-card"><div class="case-meta">ERP / BI / BPM</div><h3>Фундамент корпоративных систем</h3><p>Регламентированный учёт, управленческий учёт, кадры, CRM, BI и BPM — базовые контуры, через которые компания получает управляемость, данные и контроль процессов.</p><ul><li>1С/ERP/УХ/ЗУП как основа учёта;</li><li>BI для решений без ручных Excel-выгрузок;</li><li>BPM как сквозные процессы между системами.</li></ul><div class="case-result">Фокус: собрать бизнес-системы вокруг управляемости, данных и ответственности.</div><a class="case-link" href="https://t.me/PronkinPROIT/15" target="_blank" rel="noopener noreferrer">Разбор в канале →</a></div>
+            <div class="case-card"><div class="case-meta">Open source / TCO</div><h3>Open source в корпоративной среде</h3><p>Open source — не «бесплатно», а другая модель ответственности. Бизнесу нужна не только установка, а эксплуатация, экспертиза, SLA и понятная поддержка.</p><ul><li>Linux, PostgreSQL, Angie/HAProxy, контейнеры;</li><li>стоимость владения через людей и риски;</li><li>зрелая эксплуатация вместо самосбора без ответственности.</li></ul><div class="case-result">Фокус: считать не лицензии, а полную стоимость владения и рисков.</div><a class="case-link" href="https://t.me/PronkinPROIT/14" target="_blank" rel="noopener noreferrer">Разбор в канале →</a></div>
+            <div class="case-card"><div class="case-meta">DR / RTO / RPO</div><h3>Отказоустойчивость и геориски</h3><p>Single-region архитектура остаётся ставкой на одну географию. Взрослый вопрос — не «где дешевле разместиться», а «сколько бизнесу стоит простой».</p><ul><li>региональные риски ЦОД и облаков;</li><li>стоимость multi-region и резервирования;</li><li>архитектура через RTO/RPO и цену простоя.</li></ul><div class="case-result">Фокус: проектировать отказоустойчивость от цены простоя, а не от моды на multi-region.</div><a class="case-link" href="https://t.me/PronkinPROIT/16" target="_blank" rel="noopener noreferrer">Разбор в канале →</a></div>
         </div>
     </section>
 
