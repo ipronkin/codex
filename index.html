@@ -658,6 +658,18 @@
             color: var(--text-secondary);
         }
 
+        .section-lead { max-width: 760px; margin: -1.8rem 0 2rem; color: var(--text-secondary); font-size: 1.03rem; line-height: 1.65; }
+        .format-card { position: relative; overflow: hidden; }
+        .format-card::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: linear-gradient(180deg, var(--primary), var(--accent-green)); }
+        .format-tag { display: inline-flex; margin-top: 1rem; padding: 0.42rem 0.7rem; border-radius: 999px; background: rgba(15, 61, 145, 0.08); color: var(--primary); font-size: 0.82rem; font-weight: 800; }
+        .service-details { margin-top: 1rem; border-top: 1px solid var(--border); padding-top: 0.85rem; }
+        .service-details summary { cursor: pointer; color: var(--primary); font-weight: 800; list-style: none; }
+        .service-details summary::-webkit-details-marker { display: none; }
+        .service-details summary::after { content: ' +'; }
+        .service-details[open] summary::after { content: ' −'; }
+        .service-details ul { margin-top: 0.85rem; padding-left: 1.1rem; color: var(--text-secondary); }
+        .service-details li { margin-bottom: 0.45rem; }
+
         .contact-box {
             background: linear-gradient(135deg, #0f3d91 0%, #0b2f71 100%);
             padding: 4rem 2.4rem;
@@ -735,6 +747,14 @@
                 text-align: center;
                 justify-content: center;
             }
+            .hero-metrics,
+            .formats-grid {
+                grid-template-columns: 1fr;
+            }
+            .metric-card span {
+                overflow-wrap: anywhere;
+                word-break: normal;
+            }
         }
     </style>
 </head>
@@ -743,12 +763,12 @@
         <nav>
             <div class="logo">IP</div>
             <ul class="nav-links">
-                <li><a href="#about">Кто я</a></li>
+                <li><a href="#work">Услуги</a></li>
                 <li><a href="#value">Результат</a></li>
+                <li><a href="#about">Кто я</a></li>
                 <li><a href="#achievements">Достижения</a></li>
                 <li><a href="#cases">Кейсы</a></li>
                 <li><a href="#approach">Подход</a></li>
-                <li><a href="#work">Форматы</a></li>
                 <li><a href="#contact" class="nav-contact">Связаться</a></li>
             </ul>
         </nav>
@@ -809,6 +829,18 @@
             </div>
         </div>
     </section>
+
+    <section id="work">
+        <h2>Услуги</h2>
+        <p class="section-lead">Быстро нахожу слабые места в ИТ, навожу управляемость и помогаю провести изменения без остановки бизнеса.</p>
+        <div class="formats-grid">
+            <div class="format-card"><h3>Аудит ИТ и ИБ</h3><p>Диагностика рисков, инфраструктуры, команды и подрядчиков.</p><span class="format-tag">Результат: карта рисков и план действий</span><details class="service-details"><summary>Что внутри</summary><ul><li>критические зависимости;</li><li>риски простоев и потери данных;</li><li>приоритеты на 30–90 дней.</li></ul></details></div>
+            <div class="format-card"><h3>CIO / IT Advisor</h3><p>Временное усиление роли ИТ-директора для собственника или CEO.</p><span class="format-tag">Результат: ИТ под контролем бизнеса</span><details class="service-details"><summary>Что внутри</summary><ul><li>приоритизация ИТ-задач;</li><li>управление командой и подрядчиками;</li><li>контроль бюджета, архитектуры и рисков.</li></ul></details></div>
+            <div class="format-card"><h3>ИТ-трансформации</h3><p>ERP, 1С, BI, инфраструктура, DevOps и ИБ без хаоса.</p><span class="format-tag">Результат: изменения без остановки бизнеса</span><details class="service-details"><summary>Что внутри</summary><ul><li>миграции и замены систем;</li><li>снижение зависимости от legacy;</li><li>запуск управляемых процессов.</li></ul></details></div>
+            <div class="format-card"><h3>ИТ-стратегия</h3><p>Связь ИТ с деньгами, ростом, устойчивостью и рисками.</p><span class="format-tag">Результат: понятная дорожная карта</span><details class="service-details"><summary>Что внутри</summary><ul><li>ИТ-стратегия под цели бизнеса;</li><li>оценка TCO и эффекта;</li><li>подготовка к росту, сделке или реструктуризации.</li></ul></details></div>
+        </div>
+    </section>
+
 
     <section id="about">
         <div class="about-content">
@@ -952,31 +984,7 @@
             </ul>
         </div>
     </section>
-
-    <section id="work">
-        <h2>Форматы работы</h2>
-        <div class="formats-grid">
-            <div class="format-card">
-                <h3>Стратегический консалтинг</h3>
-                <p>Для CEO / Board: ИТ и ИБ как управляемые активы и контуры риска.</p>
-            </div>
-            <div class="format-card">
-                <h3>Аудит ИТ и ИБ</h3>
-                <p>Перед ростом, сделкой, реструктуризацией или "починкой" управляемости.</p>
-            </div>
-            <div class="format-card">
-                <h3>CIO / Advisor (временная роль)</h3>
-                <p>Усиление команды, выстраивание контуров управления, запуск трансформаций.</p>
-            </div>
-            <div class="format-card">
-                <h3>Сопровождение трансформаций</h3>
-                <!-- ИЗМЕНЕНИЕ: убрано лишнее "и" -->
-                <p>ERP/BI/миграции/ИБ — с минимизацией рисков, без остановки бизнеса.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact">
+<section id="contact">
         <div class="contact-box">
             <h2>Контакт</h2>
             <!-- ИЗМЕНЕНИЕ: Более уверенная формулировка без "если" -->
