@@ -690,6 +690,50 @@
             opacity: 0.92;
         }
 
+        .contact-links {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+            gap: 1rem;
+            max-width: 720px;
+            margin: 1.8rem auto 2rem;
+        }
+
+        .contact-link {
+            display: block;
+            padding: 1rem 1.2rem;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.96);
+            color: var(--text-primary);
+            text-decoration: none;
+            text-align: left;
+            box-shadow: 0 12px 28px rgba(2, 6, 23, 0.16);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .contact-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 34px rgba(2, 6, 23, 0.22);
+        }
+
+        .contact-label {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--text-secondary);
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .contact-value {
+            display: block;
+            color: var(--primary);
+            font-size: clamp(1rem, 2.4vw, 1.2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            word-break: break-word;
+        }
+
         .contact-box .btn {
             background: white;
             color: var(--primary);
@@ -719,7 +763,7 @@
                 padding-left: 1.2rem;
                 padding-right: 1.2rem;
             }
-            .hero-content, .about-content, .approach-grid {
+            .hero-content, .about-content, .approach-grid, .contact-links {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
@@ -799,9 +843,9 @@
                 </div>
 
                 <div class="cta-buttons">
-                    <a href="https://t.me/IgorPronk" class="btn btn-primary">Обсудить задачу в Telegram</a>
+                    <a href="#contact" class="btn btn-primary">Перейти в контакты</a>
+                    <a href="https://t.me/IgorPronk" class="btn btn-secondary">Обсудить задачу в Telegram</a>
                     <a href="https://t.me/PronkinPROIT" class="btn btn-secondary" target="_blank" rel="noopener noreferrer">Читать Telegram-канал</a>
-                    <a href="assets/CIO_Pronkin_Igor.pdf" class="btn btn-secondary" download="CIO_Pronkin_Igor.pdf">Скачать резюме</a>
                 </div>
             </div>
 
@@ -989,9 +1033,18 @@
             <h2>Контакт</h2>
             <!-- ИЗМЕНЕНИЕ: Более уверенная формулировка без "если" -->
             <p>Вам нужен CIO, который держит архитектуру, бизнес и риски в одной системе координат?<br>Готов обсудить, как выстроить управляемую и безопасную архитектуру под ваши цели.</p>
+            <div class="contact-links" aria-label="Мои контакты">
+                <a class="contact-link" href="tel:+79269655335">
+                    <span class="contact-label">Телефон</span>
+                    <span class="contact-value">+7 926 965-53-35</span>
+                </a>
+                <a class="contact-link" href="mailto:ipronkin@gmail.com">
+                    <span class="contact-label">Email</span>
+                    <span class="contact-value">ipronkin@gmail.com</span>
+                </a>
+            </div>
             <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                 <a href="https://t.me/IgorPronk" class="btn">Написать в Telegram</a>
-                <a href="assets/CIO_Pronkin_Igor.pdf" class="btn" download="CIO_Pronkin_Igor.pdf">Скачать резюме</a>
             </div>
         </div>
     </section>
