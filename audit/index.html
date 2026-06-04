@@ -117,7 +117,7 @@
         <div class="metrics">
           <div class="metric"><strong>${esc((c.criticalExposures ?? critical.length ?? 0) + (c.nucleiFindings ?? 0))}</strong><span>critical total</span></div>
           <div class="metric"><strong>${esc(c.criticalExposures ?? critical.length ?? '—')}</strong><span>critical exposed services</span></div>
-          <div class="metric"><strong>${esc(c.nucleiFindings ?? '—')}</strong><span>nuclei findings only</span></div>
+          <div class="metric"><strong>${esc(c.nucleiFindings ?? '—')}</strong><span>nuclei high/critical only</span></div>
         </div>
         ${(http || ports) ? `<ul class="list">${ports}${http}</ul>` : ''}
       `;
