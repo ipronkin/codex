@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>External Domain Audit | iipronkin.ru</title>
-  <meta name="description" content="Быстрая внешняя проверка домена: DNS, поддомены, открытые порты, HTTP-сервисы и публичные security-находки." />
+  <meta name="description" content="Первичная внешняя проверка публичной поверхности: DNS, поддомены, открытые порты, HTTP-сервисы и публичные security-находки." />
   <meta name="robots" content="noindex,nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,16 +25,17 @@
   </header>
   <main class="wrap">
     <section class="hero">
-      <div class="eyebrow"><span class="dot"></span> Быстрая внешняя проверка домена</div>
+      <div class="eyebrow"><span class="dot"></span> Первичная внешняя проверка публичной поверхности</div>
       <h1><span>Is your domain</span><span>externally safe?</span></h1>
-      <p class="lead">Проверяем публичную поверхность: DNS, поддомены, открытые критичные порты, HTTP-сервисы и известные medium/high/critical находки.</p>
+      <p class="lead">Проводим первичную внешнюю проверку публичной поверхности: DNS, поддомены, открытые критичные порты, HTTP-сервисы и известные medium/high/critical находки.</p>
       <div class="scanner">
         <form class="form" id="scanForm">
           <input class="input" id="domainInput" autocomplete="off" spellcheck="false" placeholder="example.com или https://example.com" />
           <button class="btn" id="scanBtn" type="submit">Проверить</button>
         </form>
         <div class="hint"><span>Скан может занять 3–8 минут.</span><span>Не используйте для доменов без разрешения владельца.</span></div>
-        <div class="legal-note">Сервис выполняет только пассивные и ограниченные внешние проверки публично доступной поверхности: DNS, поддомены, открытые порты, HTTP-ответы и публичные признаки известных уязвимостей. Не выполняются подбор паролей, обход авторизации, эксплуатация уязвимостей, DoS/DDoS-нагрузка и получение закрытых данных.</div>
+        <div class="legal-note"><b>Abuse/contact:</b> если ваш домен проверяют без разрешения, напишите на <a href="mailto:ipronkin@gmail.com">ipronkin@gmail.com</a> — домен или IP можно добавить в denylist.</div>
+        <div class="legal-note">Сервис выполняет только первичную внешнюю проверку публичной поверхности: DNS, поддомены, открытые порты, HTTP-ответы и публичные признаки известных уязвимостей. Не выполняются подбор паролей, обход авторизации, эксплуатация уязвимостей, DoS/DDoS-нагрузка и получение закрытых данных.</div>
         <label class="agree"><input id="termsCheck" type="checkbox" required><span>Я подтверждаю, что являюсь владельцем указанного домена либо имею законное разрешение владельца на проведение внешнего анализа, и принимаю <a href="/terms" target="_blank" rel="noopener">условия использования</a>.</span></label>
         <div class="result" id="result"></div>
       </div>
