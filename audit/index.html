@@ -75,6 +75,7 @@
       result.classList.add('show');
       const running = data.status === 'running' || data.status === 'queued';
       const failed = data.status === 'failed';
+      const denied = data.denylisted === true;
       const c = data.counts || {};
       const http = (data.http || []).slice(0,5).map(x => `<li><span>${esc(x.url)}</span><b>${esc(x.status_code || '')}</b></li>`).join('');
       const exposure = data.exposure || {};
@@ -83,8 +84,8 @@
       const riskItems = (critical.length ? critical : warnings).slice(0,8).map(x => `<li><b>${esc(x.evidence)}</b> — ${esc(x.service)}</li>`).join('');
       const riskBox = critical.length ? `<div class="riskbox"><h3>⚠️ Критичные внешние экспозиции: ${critical.length}</h3><div>Эти сервисы не стоит держать доступными из интернета без VPN/ACL/дополнительной защиты.</div><ul>${riskItems}</ul></div>` : warnings.length ? `<div class="riskbox warn"><h3>⚠️ Потенциально рискованные сервисы: ${warnings.length}</h3><ul>${riskItems}</ul></div>` : '';
       const ports = (data.ports || []).slice(0,10).map(x => `<li><span class="mono">${esc(x)}</span><b>open</b></li>`).join('');
-      const statusClass = failed ? 'bad' : running ? 'run' : critical.length ? 'bad' : warnings.length ? 'run' : 'ok';
-      const statusText = failed ? 'ERROR' : running ? 'RUNNING' : critical.length ? 'CRITICAL' : warnings.length ? 'WARNING' : 'DONE';
+      const statusClass = denied ? 'run' : failed ? 'bad' : running ? 'run' : critical.length ? 'bad' : warnings.length ? 'run' : 'ok';
+      const statusText = denied ? 'DENYLIST' : failed ? 'ERROR' : running ? 'RUNNING' : critical.length ? 'CRITICAL' : warnings.length ? 'WARNING' : 'DONE';
       result.innerHTML = `
         <div class="status"><div><b>${esc(data.domain || 'domain')}</b><div class="mono">${esc(data.message || data.phase || exposure.summary || '')}</div></div><span class="badge ${statusClass}">${statusText}</span></div>
         ${riskBox}
