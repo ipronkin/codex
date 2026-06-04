@@ -70,6 +70,7 @@
     const termsCheck = document.getElementById('termsCheck');
     const result = document.getElementById('result');
     let timer = null;
+    let activeJobId = localStorage.getItem('auditActiveJobId') || null;
     const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
     const fmtDuration = iso => { if(!iso) return '—'; const sec = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000)); const m = Math.floor(sec / 60); const s = sec % 60; return `${m}:${String(s).padStart(2,'0')}`; };
     const phaseLabel = phase => { const x = String(phase || 'Запуск проверки'); if(x.includes('Collecting subdomains')) return 'Сбор поддоменов'; if(x.includes('Resolving')) return 'Разрешение DNS'; if(x.includes('Scanning ports')) return 'Сканирование портов'; if(x.includes('Nmap')) return 'Определение сервисов'; if(x.includes('Probing HTTP')) return 'Проверка HTTP-сервисов'; if(x.includes('Crawling')) return 'Обход web-страниц'; if(x.includes('nuclei')) return 'Поиск публичных признаков уязвимостей'; return x; };
@@ -103,20 +104,37 @@
       `;
     }
     async function poll(jobId){
-      const r = await fetch(`/api/status?jobId=${encodeURIComponent(jobId)}`);
+      if(!jobId) return;
+      activeJobId = jobId;
+      localStorage.setItem('auditActiveJobId', jobId);
+      clearTimeout(timer);
+      const r = await fetch(`/api/status?jobId=${encodeURIComponent(jobId)}&t=${Date.now()}`, {cache:'no-store'});
       const data = await r.json(); render(data);
-      if(data.status === 'running' || data.status === 'queued') timer = setTimeout(() => poll(jobId), 3500);
-      else btn.disabled = false, btn.textContent = 'Проверить';
+      if(data.status === 'running' || data.status === 'queued') {
+        btn.disabled = true;
+        btn.textContent = data.status === 'queued' ? 'В очереди…' : 'Проверяю…';
+        timer = setTimeout(() => poll(jobId), document.hidden ? 10000 : 3000);
+      } else {
+        localStorage.removeItem('auditActiveJobId');
+        activeJobId = null;
+        btn.disabled = false;
+        btn.textContent = 'Проверить';
+      }
     }
+    function refreshActive(){ if(activeJobId) poll(activeJobId).catch(()=>{}); }
+    document.addEventListener('visibilitychange', () => { if(!document.hidden) refreshActive(); });
+    window.addEventListener('focus', refreshActive);
+    window.addEventListener('pageshow', refreshActive);
     form.addEventListener('submit', async e => {
       e.preventDefault(); clearTimeout(timer); btn.disabled = true; btn.textContent = 'Запускаю…';
       try{
         const r = await fetch('/api/scan', {method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({domain: input.value, acceptTerms: termsCheck.checked})});
         const data = await r.json(); render(data);
         if(!r.ok) throw new Error(data.message || 'Ошибка запуска');
-        if(data.jobId) poll(data.jobId); else btn.disabled = false, btn.textContent = 'Проверить';
+        if(data.jobId) { activeJobId = data.jobId; localStorage.setItem('auditActiveJobId', data.jobId); poll(data.jobId); } else btn.disabled = false, btn.textContent = 'Проверить';
       }catch(err){ render({status:'failed', domain:input.value, message:err.message}); btn.disabled = false; btn.textContent = 'Проверить'; }
     });
+    if(activeJobId) { btn.disabled = true; btn.textContent = 'Обновляю…'; poll(activeJobId).catch(() => { btn.disabled = false; btn.textContent = 'Проверить'; }); }
   </script>
 </body>
 </html>
