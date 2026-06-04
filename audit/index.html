@@ -73,7 +73,8 @@
     const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
     function render(data){
       result.classList.add('show');
-      const running = data.status === 'running' || data.status === 'queued';
+      const queued = data.status === 'queued';
+      const running = data.status === 'running' || queued;
       const failed = data.status === 'failed';
       const denied = data.denylisted === true;
       const c = data.counts || {};
@@ -85,7 +86,7 @@
       const riskBox = critical.length ? `<div class="riskbox"><h3>⚠️ Критичные внешние экспозиции: ${critical.length}</h3><div>Эти сервисы не стоит держать доступными из интернета без VPN/ACL/дополнительной защиты.</div><ul>${riskItems}</ul></div>` : warnings.length ? `<div class="riskbox warn"><h3>⚠️ Потенциально рискованные сервисы: ${warnings.length}</h3><ul>${riskItems}</ul></div>` : '';
       const ports = (data.ports || []).slice(0,10).map(x => `<li><span class="mono">${esc(x)}</span><b>open</b></li>`).join('');
       const statusClass = denied ? 'run' : failed ? 'bad' : running ? 'run' : critical.length ? 'bad' : warnings.length ? 'run' : 'ok';
-      const statusText = denied ? 'DENYLIST' : failed ? 'ERROR' : running ? 'RUNNING' : critical.length ? 'CRITICAL' : warnings.length ? 'WARNING' : 'DONE';
+      const statusText = denied ? 'DENYLIST' : failed ? 'ERROR' : queued ? 'QUEUED' : running ? 'RUNNING' : critical.length ? 'CRITICAL' : warnings.length ? 'WARNING' : 'DONE';
       result.innerHTML = `
         <div class="status"><div><b>${esc(data.domain || 'domain')}</b><div class="mono">${esc(data.message || data.phase || exposure.summary || '')}</div></div><span class="badge ${statusClass}">${statusText}</span></div>
         ${riskBox}
@@ -95,7 +96,7 @@
           <div class="metric"><strong>${esc(c.nucleiFindings ?? '—')}</strong><span>nuclei medium/high/critical</span></div>
         </div>
         ${(http || ports) ? `<ul class="list">${ports}${http}</ul>` : ''}
-        ${running ? `<p class="mono">Обновление статуса автоматически…</p><div class="log">${esc((data.logTail||[]).join('\n'))}</div>` : ''}
+        ${queued ? `<p class="mono">Задача в очереди${data.position ? `, позиция: ${esc(data.position)}` : ''}. Свободных потоков: ${esc((data.maxConcurrent || 3) - (data.runningCount || 0))}</p>` : running ? `<p class="mono">Обновление статуса автоматически…</p><div class="log">${esc((data.logTail||[]).join('\n'))}</div>` : ''}
       `;
     }
     async function poll(jobId){
