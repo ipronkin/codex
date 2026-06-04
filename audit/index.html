@@ -83,7 +83,7 @@
       const critical = exposure.critical || [];
       const warnings = exposure.warnings || [];
       const riskItems = (critical.length ? critical : warnings).slice(0,8).map(x => `<li><b>${esc(x.evidence)}</b> — ${esc(x.service)}</li>`).join('');
-      const riskBox = critical.length ? `<div class="riskbox"><h3>⚠️ Критичные внешние экспозиции: ${critical.length}</h3><div>Эти сервисы не стоит держать доступными из интернета без VPN/ACL/дополнительной защиты.</div><ul>${riskItems}</ul></div>` : warnings.length ? `<div class="riskbox warn"><h3>⚠️ Потенциально рискованные сервисы: ${warnings.length}</h3><ul>${riskItems}</ul></div>` : '';
+      const riskBox = critical.length ? `<div class="riskbox"><h3>⚠️ Критичные внешние экспозиции: ${critical.length}</h3><div>Значение nuclei может быть 0, но открытые RDP/SMB/RPC/БД считаются критичными внешними экспозициями. Эти сервисы не стоит держать доступными из интернета без VPN/ACL/дополнительной защиты.</div><ul>${riskItems}</ul></div>` : warnings.length ? `<div class="riskbox warn"><h3>⚠️ Потенциально рискованные сервисы: ${warnings.length}</h3><ul>${riskItems}</ul></div>` : '';
       const ports = (data.ports || []).slice(0,10).map(x => `<li><span class="mono">${esc(x)}</span><b>open</b></li>`).join('');
       const statusClass = denied ? 'run' : failed ? 'bad' : running ? 'run' : critical.length ? 'bad' : warnings.length ? 'run' : 'ok';
       const statusText = denied ? 'DENYLIST' : failed ? 'ERROR' : queued ? 'QUEUED' : running ? 'RUNNING' : critical.length ? 'CRITICAL' : warnings.length ? 'WARNING' : 'DONE';
@@ -91,9 +91,9 @@
         <div class="status"><div><b>${esc(data.domain || 'domain')}</b><div class="mono">${esc(data.message || data.phase || exposure.summary || '')}</div></div><span class="badge ${statusClass}">${statusText}</span></div>
         ${riskBox}
         <div class="metrics">
-          <div class="metric"><strong>${esc(c.criticalExposures ?? critical.length ?? '—')}</strong><span>critical exposures</span></div>
-          <div class="metric"><strong>${esc(c.openPorts ?? '—')}</strong><span>open host:ports</span></div>
-          <div class="metric"><strong>${esc(c.nucleiFindings ?? '—')}</strong><span>nuclei medium/high/critical</span></div>
+          <div class="metric"><strong>${esc((c.criticalExposures ?? critical.length ?? 0) + (c.nucleiFindings ?? 0))}</strong><span>critical total</span></div>
+          <div class="metric"><strong>${esc(c.criticalExposures ?? critical.length ?? '—')}</strong><span>critical exposed services</span></div>
+          <div class="metric"><strong>${esc(c.nucleiFindings ?? '—')}</strong><span>nuclei findings only</span></div>
         </div>
         ${(http || ports) ? `<ul class="list">${ports}${http}</ul>` : ''}
         ${queued ? `<p class="mono">Задача в очереди${data.position ? `, позиция: ${esc(data.position)}` : ''}. Свободных потоков: ${esc((data.maxConcurrent || 3) - (data.runningCount || 0))}</p>` : running ? `<p class="mono">Обновление статуса автоматически…</p><div class="log">${esc((data.logTail||[]).join('\n'))}</div>` : ''}
