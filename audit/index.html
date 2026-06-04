@@ -73,7 +73,26 @@
     let activeJobId = localStorage.getItem('auditActiveJobId') || null;
     const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
     const fmtDuration = iso => { if(!iso) return '—'; const sec = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000)); const m = Math.floor(sec / 60); const s = sec % 60; return `${m}:${String(s).padStart(2,'0')}`; };
-    const phaseLabel = phase => { const x = String(phase || 'Запуск проверки'); if(x.includes('Collecting subdomains')) return 'Сбор поддоменов'; if(x.includes('Resolving')) return 'Разрешение DNS'; if(x.includes('Scanning ports')) return 'Сканирование портов'; if(x.includes('Nmap')) return 'Определение сервисов'; if(x.includes('Probing HTTP')) return 'Проверка HTTP-сервисов'; if(x.includes('Crawling')) return 'Обход web-страниц'; if(x.includes('nuclei')) return 'Поиск публичных признаков уязвимостей'; return x; };
+    const phaseLabel = phase => {
+      const raw = String(phase || '').trim();
+      if(!raw) return 'Подготовка проверки';
+      if(raw.startsWith('{') || raw.startsWith('[') || raw.includes('httpx') || raw.includes('status_code') || raw.includes('content_length')) return 'Анализ HTTP/HTTPS-ответов';
+      if(raw.includes('External audit started')) return 'Инициализация проверки';
+      if(raw.includes('Output:')) return 'Подготовка рабочего отчёта';
+      if(raw.includes('Collecting subdomains')) return 'Сбор публичных поддоменов';
+      if(raw.includes('crt.sh error')) return 'Проверка публичных источников сертификатов';
+      if(raw.includes('Resolving')) return 'Разрешение DNS-записей';
+      if(raw.includes('Scanning ports')) return 'Проверка открытых сетевых портов';
+      if(raw.includes('Nmap') || raw.includes('Service detection')) return 'Определение доступных сетевых сервисов';
+      if(raw.includes('Probing HTTP')) return 'Проверка HTTP/HTTPS-сервисов';
+      if(raw.includes('Crawling')) return 'Сбор публичных web-страниц';
+      if(raw.toLowerCase().includes('nuclei')) return 'Поиск публичных признаков уязвимостей';
+      if(raw.includes('Writing summary')) return 'Формирование итогового отчёта';
+      if(raw.includes('Done')) return 'Проверка завершена';
+      if(/^[\w.-]+:\d+$/.test(raw)) return 'Фиксация открытых сетевых портов';
+      if(raw.length > 90) return 'Выполняется очередной этап внешней проверки';
+      return raw.replace(/^\[\+\]\s*/, '');
+    };
     function render(data){
       result.classList.add('show');
       const queued = data.status === 'queued';
@@ -92,7 +111,7 @@
       const statusText = denied ? 'DENYLIST' : failed ? 'ERROR' : queued ? 'QUEUED' : running ? 'RUNNING' : critical.length ? 'CRITICAL' : warnings.length ? 'WARNING' : 'DONE';
       const activeBox = queued ? `<div class="runbox"><div class="runhead"><span class="spinner"></span>Задача поставлена в очередь</div><div class="progress"><div class="bar"></div></div><div>Проверка начнётся автоматически, когда освободится один из 3 потоков.</div><div class="runmeta"><div><b>${esc(data.position || '—')}</b><span>позиция</span></div><div><b>${esc(data.runningCount || 0)}/${esc(data.maxConcurrent || 3)}</b><span>потоки заняты</span></div><div><b>${esc(fmtDuration(data.createdAt))}</b><span>в очереди</span></div></div></div>` : (data.status === 'running' ? `<div class="runbox"><div class="runhead"><span class="spinner"></span>Проверка выполняется</div><div class="progress"><div class="bar"></div></div><div><b>Текущий этап:</b> ${esc(phaseLabel(data.phase))}</div><div class="runmeta"><div><b>${esc(fmtDuration(data.startedAt))}</b><span>прошло</span></div><div><b>3–8 мин</b><span>обычно</span></div><div><b>${esc(data.runningCount || 1)}/${esc(data.maxConcurrent || 3)}</b><span>потоки заняты</span></div></div><p class="mono">Страница обновляет статус автоматически. Можно оставить вкладку открытой.</p></div>` : '');
       result.innerHTML = `
-        <div class="status"><div><b>${esc(data.domain || 'domain')}</b><div class="mono">${esc(data.message || data.phase || exposure.summary || '')}</div></div><span class="badge ${statusClass}">${statusText}</span></div>
+        <div class="status"><div><b>${esc(data.domain || 'domain')}</b><div class="mono">${esc(data.message || (data.phase ? phaseLabel(data.phase) : exposure.summary || ''))}</div></div><span class="badge ${statusClass}">${statusText}</span></div>
         ${activeBox}
         ${riskBox}
         <div class="metrics">
