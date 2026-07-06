@@ -92,6 +92,16 @@
     let activeJobId = localStorage.getItem('auditActiveJobId') || null;
     const esc = s => String(s ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
     const fmtDuration = iso => { if(!iso) return '—'; const sec = Math.max(0, Math.floor((Date.now() - new Date(iso).getTime()) / 1000)); const m = Math.floor(sec / 60); const s = sec % 60; return `${m}:${String(s).padStart(2,'0')}`; };
+    const fmtNumber = n => Number.isFinite(Number(n)) ? Number(n).toLocaleString('ru-RU') : '—';
+    const progressFromLog = rows => {
+      for(const line of [...(rows || [])].reverse()){
+        try{
+          const x = JSON.parse(line);
+          if(x && x.total != null && x.requests != null) return {total:Number(x.total),requests:Number(x.requests),percent:Number(x.percent || 0),rps:Number(x.rps || 0),hosts:Number(x.hosts || 0),templates:Number(x.templates || 0),matched:Number(x.matched || 0),errors:Number(x.errors || 0),duration:x.duration || ''};
+        }catch{}
+      }
+      return null;
+    };
     const phaseLabel = phase => {
       const raw = String(phase || '').trim();
       if(!raw) return 'Подготовка проверки';
@@ -135,7 +145,10 @@
       const reportBox = (data.status === 'done' && data.jobId) ? `<div class="reportactions"><a class="downloadbtn" href="/api/report.txt?jobId=${encodeURIComponent(data.jobId)}&domain=${encodeURIComponent(data.domain || '')}&timestamp=${encodeURIComponent(data.timestamp || '')}" target="_blank" rel="noopener">Скачать подробный TXT-отчёт</a></div>` : '';
       const deepTargets = data.deepTargets || (data.deepTarget ? [data.deepTarget] : []);
       const deepTargetsBox = (data.mode === 'deep' && deepTargets.length) ? `<div class="deeptargets"><b>Выбранные домены/цели для углубленной проверки nuclei:</b><ul>${deepTargets.map(x => `<li class="mono">${esc(x)}</li>`).join('')}</ul></div>` : '';
-      const activeBox = queued ? `<div class="runbox"><div class="runhead"><span class="spinner"></span>Задача поставлена в очередь</div>${deepTargetsBox}<div class="progress"><div class="bar"></div></div><div>Проверка начнётся автоматически, когда освободится один из 3 потоков.</div><div class="runmeta"><div><b>${esc(data.position || '—')}</b><span>позиция</span></div><div><b>${esc(data.runningCount || 0)}/${esc(data.maxConcurrent || 3)}</b><span>потоки заняты</span></div><div><b>${esc(fmtDuration(data.createdAt))}</b><span>в очереди</span></div></div></div>` : (data.status === 'running' ? `<div class="runbox"><div class="runhead"><span class="spinner"></span>Проверка выполняется</div>${deepTargetsBox}<div class="progress"><div class="bar"></div></div><div><b>Текущий этап:</b> ${esc(phaseLabel(data.phase))}</div><div class="runmeta"><div><b>${esc(fmtDuration(data.startedAt))}</b><span>прошло</span></div><div><b>${data.mode === 'deep' ? 'дольше' : '3–8 мин'}</b><span>обычно</span></div><div><b>${esc(data.runningCount || 1)}/${esc(data.maxConcurrent || 3)}</b><span>потоки заняты</span></div></div><p class="mono">Страница обновляет статус автоматически. Можно оставить вкладку открытой.</p></div>` : (deepTargetsBox || ''));
+      const p = data.progress || progressFromLog(data.logTail);
+      const progressBar = p && p.total ? `<div class="progress"><div class="bar" style="width:${esc(Math.max(2, Math.min(100, p.percent || 0)))}%;min-width:0;animation:none"></div></div><div><b>Прогресс nuclei:</b> ${fmtNumber(p.requests)} из ${fmtNumber(p.total)} проверок, ${esc(p.percent)}%</div>` : `<div class="progress"><div class="bar"></div></div>`;
+      const progressMeta = p && p.total ? `<div><b>${fmtNumber(p.requests)}</b><span>проверок прошло</span></div><div><b>${fmtNumber(p.total)}</b><span>всего проверок</span></div><div><b>${esc(p.rps || '—')} rps</b><span>скорость</span></div>` : '';
+      const activeBox = queued ? `<div class="runbox"><div class="runhead"><span class="spinner"></span>Задача поставлена в очередь</div>${deepTargetsBox}<div class="progress"><div class="bar"></div></div><div>Проверка начнётся автоматически, когда освободится один из 3 потоков.</div><div class="runmeta"><div><b>${esc(data.position || '—')}</b><span>позиция</span></div><div><b>${esc(data.runningCount || 0)}/${esc(data.maxConcurrent || 3)}</b><span>потоки заняты</span></div><div><b>${esc(fmtDuration(data.createdAt))}</b><span>в очереди</span></div></div></div>` : (data.status === 'running' ? `<div class="runbox"><div class="runhead"><span class="spinner"></span>Проверка выполняется</div>${deepTargetsBox}${progressBar}<div><b>Текущий этап:</b> ${esc(phaseLabel(data.phase))}</div><div class="runmeta">${progressMeta}<div><b>${esc(fmtDuration(data.startedAt))}</b><span>прошло</span></div><div><b>${data.mode === 'deep' ? 'дольше' : '3–8 мин'}</b><span>обычно</span></div><div><b>${esc(data.runningCount || 1)}/${esc(data.maxConcurrent || 3)}</b><span>потоки заняты</span></div></div><p class="mono">Страница обновляет статус автоматически. Можно оставить вкладку открытой.</p></div>` : (deepTargetsBox || ''));
       result.innerHTML = `
         <div class="status"><div><b>${esc(data.domain || 'domain')}</b><div class="mono">${esc(data.message || (data.phase ? phaseLabel(data.phase) : exposure.summary || ''))}</div></div><span><span class="badge modebadge">${esc(modeText)}</span> <span class="badge ${statusClass}">${statusText}</span></span></div>
         ${activeBox}
